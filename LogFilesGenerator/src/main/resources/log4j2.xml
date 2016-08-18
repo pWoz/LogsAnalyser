@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}{GMT} instanceId [%C] - %p : %m%n"/>
+        </Console>
+        <File name="AppFile" fileName="app.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}{GMT} instanceId [%C] - %p : %m%n"/>
+        </File>
+        <File name="OutputFile" fileName="output.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}{GMT} instanceId [%C] - %p : %m%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppFile"/>
+        </Root>
+        
+        <Logger name="io.github.pWoz.generator.LogMessagesGenerator" level="info">
+            <AppenderRef ref="OutputFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+    </Loggers>
+</Configuration>
