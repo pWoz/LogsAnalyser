@@ -41,7 +41,12 @@ public class RandomValuesGenerator {
         int index = random.nextInt(availableHttpMethods.length);
         return availableHttpMethods[index];
     }
+
     public int generateRandomRequestTime(){
         return random.nextInt(10000) + 1;
+    }
+
+    public String generateRandomResourcePath(){
+        return "/okok/okok";
     }
 }

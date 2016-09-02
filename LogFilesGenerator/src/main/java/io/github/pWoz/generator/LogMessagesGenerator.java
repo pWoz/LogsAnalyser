@@ -49,8 +49,7 @@ public class LogMessagesGenerator implements Runnable {
                 .withStatusCode(randomValuesGenerator.generateRandomStatusCode())
                 .withRemoteAddr(randomValuesGenerator.generateRandomRemoteAddress())
                 .withRequestTime(randomValuesGenerator.generateRandomRequestTime())
-                //TODO dokończyć generowanie
-                .withResourcePath("/okok/okok")
+                .withResourcePath(randomValuesGenerator.generateRandomResourcePath())
                 .withRequestMethod(randomValuesGenerator.generateRandomHttpmethod())
                 .build();
 
