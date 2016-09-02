@@ -1,3 +1,4 @@
 .idea/
 LogFilesGenerator/target/
 *.iml
+*.log
