@@ -1,5 +1,8 @@
 package io.github.pWoz.generator;
 
+import io.github.pWoz.utils.LoggingMessage;
+import io.github.pWoz.utils.LoggingMessageBuilder;
+import io.github.pWoz.utils.RandomValuesGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,15 +21,40 @@ public class LogMessagesGenerator implements Runnable {
     private String identifier;
     private int numberOfLoops;
     private Properties properties;
+    private RandomValuesGenerator randomValuesGenerator;
 
     public LogMessagesGenerator(Properties properties) {
         this.properties = properties;
         readProperties();
-        identifier = UUID.randomUUID().toString();
+        randomValuesGenerator = new RandomValuesGenerator();
+        identifier = randomValuesGenerator.generateRandomApplicationName();
     }
 
     public void generateMessage(int counter) {
-        LOGGER.info(identifier + ":" + counter);
+        LoggingMessage message = buildMessage();
+
+        if (message.getStatus() == 404)
+            LOGGER.warn(identifier + " " + message.getMessage());
+        else if (message.getStatus() == 500)
+            LOGGER.error(identifier + " " + message.getMessage());
+        else
+            LOGGER.info(identifier + " " + message.getMessage());
+    }
+
+    private LoggingMessage buildMessage() {
+        //
+        LoggingMessageBuilder builder = new LoggingMessageBuilder();
+        //
+        LoggingMessage message = builder
+                .withStatusCode(randomValuesGenerator.generateRandomStatusCode())
+                .withRemoteAddr(randomValuesGenerator.generateRandomRemoteAddress())
+                .withRequestTime(randomValuesGenerator.generateRandomRequestTime())
+                //TODO dokończyć generowanie
+                .withResourcePath("/okok/okok")
+                .withRequestMethod(randomValuesGenerator.generateRandomHttpmethod())
+                .build();
+
+        return message;
     }
 
     public void run() {
