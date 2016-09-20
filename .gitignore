@@ -2,3 +2,4 @@
 LogFilesGenerator/target/
 *.iml
 *.log
+LogFilesAnalyser/target/
