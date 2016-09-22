@@ -1,3 +1,7 @@
+package io.github.pWoz.LogsAnalyser;
+
+import io.github.pWoz.LogsAnalyser.analysers.RddAnalyser;
+import io.github.pWoz.LogsAnalyser.analysers.ResponseTimesAnalyser;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
@@ -37,15 +41,18 @@ public class LogAnalyser {
     }
 
     private void performAnalysis(JavaSparkContext sc, JavaRDD<String> logFile) {
-        JavaRDD<String> responseTimes = fetchResponseTimes(logFile);
+        JavaRDD<Integer> responseTimes = fetchResponseTimes(logFile);
         JavaRDD<String> responseCodes  = fetchResponseCodes(logFile);
         JavaRDD<String> applicationNames = fetchApplicationNames(logFile);
         JavaRDD<String> clientIPs = fetchClientIPs(logFile);
+        //
+        RddAnalyser responseTimesAnalyser = new ResponseTimesAnalyser(responseTimes);
+        responseTimesAnalyser.analyseRdd();
     }
 
-    private JavaRDD<String> fetchResponseTimes(JavaRDD<String> logFile){
+    private JavaRDD<Integer> fetchResponseTimes(JavaRDD<String> logFile){
         JavaRDD<String> responseTimesWithMs = logFile.map(s -> s.split(" ")[RESPONSE_TIME_POSITION]);
-        JavaRDD<String> responseTimes = responseTimesWithMs.map(s -> s.substring(0, s.length() - 2));
+        JavaRDD<Integer> responseTimes = responseTimesWithMs.map(s -> Integer.parseInt(s.substring(0, s.length() - 2)));
         LOGGER.info("Response times fetched. Sample" + responseTimes.take(5));
         return responseTimes;
     }
