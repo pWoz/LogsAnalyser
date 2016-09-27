@@ -1,8 +1,6 @@
 package io.github.pWoz.LogsAnalyser;
 
-import io.github.pWoz.LogsAnalyser.analysers.RddAnalyser;
-import io.github.pWoz.LogsAnalyser.analysers.ResponseCodesAnalyser;
-import io.github.pWoz.LogsAnalyser.analysers.ResponseTimesAnalyser;
+import io.github.pWoz.LogsAnalyser.analysers.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
@@ -24,6 +22,7 @@ public class LogAnalyser {
     private static final int RESPONSE_CODE_POSITION = 7;
     private static final int RESPONSE_TIME_POSITION = 8;
     private static final int CLIENT_IP_POSITION = 9;
+    private static final int REQUEST_METHOD_POSITION = 10;
     //
     private JavaSparkContext sc;
     private LongAccumulator errorsCounter;
@@ -56,12 +55,20 @@ public class LogAnalyser {
         JavaRDD<String> responseCodes = fetchResponseCodes(logFile);
         JavaRDD<String> applicationNames = fetchApplicationNames(logFile);
         JavaRDD<String> clientIPs = fetchClientIPs(logFile);
+        JavaRDD<String> requestMethods = fetchRequestMethods(logFile);
+
         //
         RddAnalyser responseTimesAnalyser = new ResponseTimesAnalyser(responseTimes);
         responseTimesAnalyser.analyseRdd();
         //
         RddAnalyser responseCodesAnalyser = new ResponseCodesAnalyser(responseCodes, successesCounter, errorsCounter);
         responseCodesAnalyser.analyseRdd();
+        //
+        RddAnalyser clientIPAnalyser = new ClientIPAnalyser(clientIPs);
+        clientIPAnalyser.analyseRdd();
+        //
+        RequestMethodAnalyser requestMethodAnalyser = new RequestMethodAnalyser(requestMethods);
+        requestMethodAnalyser.analyseRdd();
     }
 
     private JavaRDD<Integer> fetchResponseTimes(JavaRDD<String> logFile) {
@@ -90,4 +97,13 @@ public class LogAnalyser {
         LOGGER.info("Client IPs fetched. Sample" + clientIps.take(5));
         return clientIps;
     }
+
+    private JavaRDD<String> fetchRequestMethods(JavaRDD<String> logFile) {
+        JavaRDD<String> reqestMethods = logFile.map(s -> s.split(" ")[REQUEST_METHOD_POSITION]);
+
+        LOGGER.info("Request methods fetched. Sample" + reqestMethods.take(5));
+        return reqestMethods;
+    }
+
+
 }
