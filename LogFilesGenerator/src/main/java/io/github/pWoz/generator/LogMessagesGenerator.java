@@ -50,7 +50,7 @@ public class LogMessagesGenerator implements Runnable {
                 .withRemoteAddr(randomValuesGenerator.generateRandomRemoteAddress())
                 .withRequestTime(randomValuesGenerator.generateRandomRequestTime())
                 .withResourcePath(randomValuesGenerator.generateRandomResourcePath())
-                .withRequestMethod(randomValuesGenerator.generateRandomHttpmethod())
+                .withRequestMethod(randomValuesGenerator.generateRandomHttpMethod())
                 .build();
 
         return message;

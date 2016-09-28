@@ -39,7 +39,7 @@ public class RandomValuesGenerator {
         return availableApplicationNames[index];
     }
 
-    public String generateRandomHttpmethod() {
+    public String generateRandomHttpMethod() {
         int index = random.nextInt(availableHttpMethods.length);
         return availableHttpMethods[index];
     }
@@ -52,9 +52,7 @@ public class RandomValuesGenerator {
         Random r = new Random();
         String resourcePath = availableApplicationNames[r.nextInt(availableApplicationNames.length)];
         resourcePath += "/";
-        resourcePath += RandomStringUtils.random(5, "abcdefghijklmnop");
-        resourcePath += "/";
-        resourcePath += RandomStringUtils.random(7, "abcdefghijklmnopqrstuwxyz");
+        resourcePath += RandomStringUtils.random(4, "abcd");
         return resourcePath;
     }
 }

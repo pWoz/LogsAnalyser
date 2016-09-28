@@ -17,7 +17,7 @@ public class LogAnalyser {
 
     private static final Logger LOGGER = LogManager.getLogger(LogAnalyser.class);
 
-    private static final String LOG_FILE_NAME = "sample.txt";
+    private static final String LOG_FILE_NAME = "output.log";
     private static final int APP_NAME_POSITION = 6;
     private static final int RESPONSE_CODE_POSITION = 7;
     private static final int RESPONSE_TIME_POSITION = 8;
