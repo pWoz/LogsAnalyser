@@ -1,5 +1,7 @@
 package io.github.pWoz.utils;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 import java.util.Random;
 
 /**
@@ -37,16 +39,22 @@ public class RandomValuesGenerator {
         return availableApplicationNames[index];
     }
 
-    public String generateRandomHttpmethod(){
+    public String generateRandomHttpmethod() {
         int index = random.nextInt(availableHttpMethods.length);
         return availableHttpMethods[index];
     }
 
-    public int generateRandomRequestTime(){
+    public int generateRandomRequestTime() {
         return random.nextInt(10000) + 1;
     }
 
-    public String generateRandomResourcePath(){
-        return "/okok/okok";
+    public String generateRandomResourcePath() {
+        Random r = new Random();
+        String resourcePath = availableApplicationNames[r.nextInt(availableApplicationNames.length)];
+        resourcePath += "/";
+        resourcePath += RandomStringUtils.random(5, "abcdefghijklmnop");
+        resourcePath += "/";
+        resourcePath += RandomStringUtils.random(7, "abcdefghijklmnopqrstuwxyz");
+        return resourcePath;
     }
 }
