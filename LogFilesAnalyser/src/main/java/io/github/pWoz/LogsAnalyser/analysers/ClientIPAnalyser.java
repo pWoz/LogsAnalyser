@@ -14,7 +14,7 @@ public class ClientIPAnalyser implements RddAnalyser {
 
     private JavaRDD<String> clientIPs = null;
 
-    public ClientIPAnalyser(JavaRDD<String> clientIPs){
+    public ClientIPAnalyser(JavaRDD<String> clientIPs) {
         this.clientIPs = clientIPs;
     }
 
@@ -22,8 +22,8 @@ public class ClientIPAnalyser implements RddAnalyser {
     public void analyseRdd() {
         JavaPairRDD<String, Integer> pairedIPs = clientIPs.mapToPair(ip -> new Tuple2<>(ip, 1));
         JavaPairRDD<String, Integer> summedIPs = pairedIPs.reduceByKey((x, y) -> x + y);
-        JavaRDD<Tuple2<Integer,String>> swapedIPs = summedIPs.map(ip->ip.swap());
-        List<Tuple2<Integer,String>> results = swapedIPs.take(10);
+        JavaRDD<Tuple2<Integer, String>> swapedIPs = summedIPs.map(ip -> ip.swap());
+        List<Tuple2<Integer, String>> results = swapedIPs.take(10);
         return;
     }
 }

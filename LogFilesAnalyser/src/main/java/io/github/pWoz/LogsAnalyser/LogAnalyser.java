@@ -23,6 +23,7 @@ public class LogAnalyser {
     private static final int RESPONSE_TIME_POSITION = 8;
     private static final int CLIENT_IP_POSITION = 9;
     private static final int REQUEST_METHOD_POSITION = 10;
+    private static final int REQUEST_PATH_POSITION = 11;
     //
     private JavaSparkContext sc;
     private LongAccumulator errorsCounter;
@@ -56,6 +57,7 @@ public class LogAnalyser {
         JavaRDD<String> applicationNames = fetchApplicationNames(logFile);
         JavaRDD<String> clientIPs = fetchClientIPs(logFile);
         JavaRDD<String> requestMethods = fetchRequestMethods(logFile);
+        JavaRDD<String> resourcePaths = fetchResourcePaths(logFile);
 
         //
         RddAnalyser responseTimesAnalyser = new ResponseTimesAnalyser(responseTimes);
@@ -69,6 +71,10 @@ public class LogAnalyser {
         //
         RequestMethodAnalyser requestMethodAnalyser = new RequestMethodAnalyser(requestMethods);
         requestMethodAnalyser.analyseRdd();
+        //
+        ResourcePathAnalyser resourcePathAnalyser = new ResourcePathAnalyser(resourcePaths);
+        resourcePathAnalyser.analyseRdd();
+
     }
 
     private JavaRDD<Integer> fetchResponseTimes(JavaRDD<String> logFile) {
@@ -105,5 +111,11 @@ public class LogAnalyser {
         return reqestMethods;
     }
 
+    private JavaRDD<String> fetchResourcePaths(JavaRDD<String> logFile) {
+        JavaRDD<String> resourcePaths = logFile.map(s -> s.split(" ")[REQUEST_PATH_POSITION]);
+
+        LOGGER.info("Request methods fetched. Sample" + resourcePaths.take(5));
+        return resourcePaths;
+    }
 
 }
