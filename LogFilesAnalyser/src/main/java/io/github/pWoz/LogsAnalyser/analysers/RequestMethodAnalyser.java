@@ -23,7 +23,7 @@ public class RequestMethodAnalyser implements RddAnalyser {
         JavaPairRDD<String, Integer> pairedMethods = requestMethods.mapToPair(method -> new Tuple2<>(method, 1));
         JavaPairRDD<String, Integer> reducedMethods = pairedMethods.reduceByKey((x, y) -> x + y);
         List<Tuple2<String, Integer>> results = reducedMethods.take(10);
-        System.out.println("/////////////////////");
+        System.out.println("////REQUEST METHODS//");
         for (Tuple2<String, Integer> result : results) {
             System.out.println("Request method: " + result._1);
             System.out.println("Counter: " + result._2);

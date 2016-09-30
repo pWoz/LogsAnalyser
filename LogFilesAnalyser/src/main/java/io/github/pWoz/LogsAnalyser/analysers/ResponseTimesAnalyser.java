@@ -18,7 +18,7 @@ public class ResponseTimesAnalyser implements RddAnalyser{
         long biggestValue = findBiggestValue();
         long smallestValue = findSmallestValue();
         double meanValue = findMeanValue();
-        System.out.println("/////////////////////");
+        System.out.println("////RESPONSE TIMES///");
         System.out.println("Biggest: " + biggestValue);
         System.out.println("Smallest: " + smallestValue);
         System.out.println("Mean value: " + meanValue);

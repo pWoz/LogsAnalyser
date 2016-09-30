@@ -31,7 +31,7 @@ public class ResponseCodesAnalyser implements RddAnalyser, Serializable {
         countErrorResponses();
         countSuccessResponses();
         findTheMostCommonResponseTime();
-        System.out.println("/////////////////////");
+        System.out.println("///Response codes////");
         System.out.println("Successes: " + successesCounter.value());
         System.out.println("Errorrs: " + errorsCounter.value());
         System.out.println("/////////////////////");
